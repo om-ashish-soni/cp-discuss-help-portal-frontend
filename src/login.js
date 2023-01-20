@@ -5,6 +5,7 @@ import NavBar from './header';
 function Login() {
   return (
     <>
+    <div className="container w-50">
     <Form>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Email address</Form.Label>
@@ -25,6 +26,7 @@ function Login() {
         Submit
       </Button>
     </Form>
+    </div>
     </>
   );
 }
