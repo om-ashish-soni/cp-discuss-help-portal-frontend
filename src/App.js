@@ -7,6 +7,7 @@ import Login from './login';
 import HomePage from './home';
 import NavBar from './header';
 import CreateArticle from './createArticle';
+import SignUp from './signUp';
 function App() {
   return (
     <>
@@ -25,11 +26,14 @@ function App() {
         </a>
       </header> */}
       <NavBar/>
+      {console.log(window.location.href)}
+
     <BrowserRouter>
       <Routes>
         <Route  path="/" element={<HomePage />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/createArticle" element={<CreateArticle />} />
+        <Route exact path="/signup" element={<SignUp />} />
 
       </Routes>
     </BrowserRouter>

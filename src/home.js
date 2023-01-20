@@ -167,19 +167,18 @@ function HomePage() {
     //     display:"flex",
     // }
     return (
+        <Paper elevation={3}>
         <div className="container w-60">
             <h1>Article header</h1>
-            <spam><h6>Difficulty level: medium</h6><h6>Created at: 00/00/0000</h6></spam>
+            <div style={{display:"flex", flexDirection:"row" }}><h6>Difficulty level: medium</h6>&nbsp; &nbsp;<h6>Created at: 00/00/0000</h6></div>
             {_articles}
-            <div className="container w-60">
-                <h5 className='pull-left'>Views: 100</h5>
-            <Box  component="span" sx={{ p: 2, border: '1px dashed grey' }}>
+            <div style={{display:"flex", flexDirection:"row" }}>                
+            <h5 className='pull-left'>Views: 100</h5>&nbsp;&nbsp;
             <Tooltip title="Like">
                     <Badge badgeContent={4} color="primary">
                         <FavoriteBorderIcon />
                     </Badge>
                 </Tooltip>
-            </Box>
             </div>
             <h4>Contributed by:</h4>
             <h3>xyz</h3>
@@ -192,6 +191,7 @@ function HomePage() {
                 <ListGroup.Item>Expert</ListGroup.Item>
             </ListGroup>
         </div>
+        </Paper>
         // <NavBar username="abc"/>
     )
 }
