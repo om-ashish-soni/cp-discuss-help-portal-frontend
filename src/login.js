@@ -5,7 +5,6 @@ import NavBar from './header';
 function Login() {
   return (
     <>
-    <NavBar/>
     <Form>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Email address</Form.Label>

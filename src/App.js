@@ -5,6 +5,8 @@ import Form from 'react-bootstrap/Form';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from './login';
 import HomePage from './home';
+import NavBar from './header';
+import CreateArticle from './createArticle';
 function App() {
   return (
     <>
@@ -22,10 +24,13 @@ function App() {
           Learn React
         </a>
       </header> */}
-      <BrowserRouter>
+      <NavBar/>
+    <BrowserRouter>
       <Routes>
-      <Route index element={<HomePage />} />
-        <Route path="/login" element={<Login />} />
+        <Route  path="/" element={<HomePage />} />
+        <Route exact path="/login" element={<Login />} />
+        <Route exact path="/createArticle" element={<CreateArticle />} />
+
       </Routes>
     </BrowserRouter>
     </>
