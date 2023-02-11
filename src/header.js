@@ -2,38 +2,69 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-
+import { Button, NavItem } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import './Header.css';
 function NavBar(props) {
+  const navigate = useNavigate();
+  const redirect = (e, location) => {
+    e.preventDefault();
+    navigate(location);
+  }
+  const doLogout = (e) => {
+    e.preventDefault();
+    localStorage.removeItem('userId');
+    localStorage.removeItem('userName');
+    redirect(e, "/login")
+  }
+  const ConditionalRendering = ({ children }) => {
+    if (!localStorage.getItem('userName')) {
+      return children;
+    } else {
+      const userName = localStorage.getItem('userName');
+      return <>
+        <NavItem className="nav-item-link" onClick={(e) => redirect(e, `/profile/${userName}`)}>{userName}</NavItem>
+        &nbsp;&nbsp;
+        <NavItem className="nav-item-link" onClick={(e) => doLogout(e)}>logout</NavItem>
+      </>
+    }
+  }
   return (
-    <Navbar bg="light" expand="lg">
+    
+    <Navbar className="text-dark" variant="dark" expand="lg">
       <Container>
-        <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+        <Navbar.Brand className="text-dark">CP Discuss</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
+          <Nav className="ml-auto">
+            <NavItem className="nav-item-link">
+              <Link to="/home" className="nav-link text-dark">Home</Link>
+            </NavItem>
+            &nbsp;&nbsp;
+            <NavItem className="nav-item-link">
+              <Link to="/create-article" className="nav-link text-dark">Create</Link>
+            </NavItem>
+            &nbsp;&nbsp;
+            <NavItem className="nav-item-link">
+              <Link to="/search-article" className="nav-link text-dark">Search</Link>
+            </NavItem>
           </Nav>
         </Navbar.Collapse>
         <Navbar.Collapse className="justify-content-end">
-            <Nav.Link href="/login">{props.username!==undefined?"welcome "+props.username :"login "}</Nav.Link>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <Nav.Link href="#home">Sign in</Nav.Link>
+          <ConditionalRendering>
+            <NavItem className="nav-item-link">
+              <Link to="/login" className="nav-link text-dark">Login</Link>
+            </NavItem>
+            &nbsp;&nbsp;
+            <NavItem className="nav-item-link">
+              <Link to="/signup" className="nav-link text-dark">Sign up</Link>
+            </NavItem>
+          </ConditionalRendering>
         </Navbar.Collapse>
-        
       </Container>
     </Navbar>
+
   );
 }
 
