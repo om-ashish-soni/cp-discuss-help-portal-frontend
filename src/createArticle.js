@@ -53,7 +53,7 @@ function CreateArticle() {
     console.log("tags : ", tags);
     console.log("difficutly : ", difficulty);
     console.log("userName : ",userName,localStorage.getItem('userName'));
-    fetch(`http://localhost:8086/articles/create`, {
+    fetch(`/articles/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

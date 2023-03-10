@@ -12,7 +12,7 @@ const SearchArticle = () => {
 
     const fetchArticles = (searchQuery) => {
         setLoading(true);
-        fetch(`http://localhost:8086/articles/search/${searchQuery}`, {
+        fetch(`/articles/search/${searchQuery}`, {
             method: 'Get',
             headers: {
                 'Content-Type': 'application/json',

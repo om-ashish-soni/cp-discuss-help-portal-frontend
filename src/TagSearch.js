@@ -11,7 +11,7 @@ export default function TagSearch() {
     const { tagName } = useParams();
     const fetchArticles = () => {
         setLoading(true);
-        fetch(`http://localhost:8086/articles/get/tag/${tagName}`, {
+        fetch(`/articles/get/tag/${tagName}`, {
             method: 'Get',
             headers: {
                 'Content-Type': 'application/json',

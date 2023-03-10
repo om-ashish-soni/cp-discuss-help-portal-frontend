@@ -11,7 +11,7 @@ export default function Profile() {
     const { profileName } = useParams();
     const fetchArticles = () => {
         setLoading(true);
-        fetch(`http://localhost:8086/articles/get/creator/${profileName}`, {
+        fetch(`/articles/get/creator/${profileName}`, {
             method: 'Get',
             headers: {
                 'Content-Type': 'application/json',

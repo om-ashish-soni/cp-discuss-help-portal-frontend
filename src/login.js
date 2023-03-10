@@ -16,7 +16,7 @@ function Login() {
     event.preventDefault();
     const userName = userNameRef.current.value;
     const password = passwordRef.current.value;
-    fetch(`http://localhost:8086/login`, {
+    fetch(`/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

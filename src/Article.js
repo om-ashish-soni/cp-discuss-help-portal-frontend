@@ -1,18 +1,24 @@
 
 
 import React from 'react';
-import { Container, Row, Col, Card, Badge } from 'react-bootstrap';
+import { Container, Row, Col, Card, Badge, Button } from 'react-bootstrap';
 import { useNavigate, useParams } from "react-router-dom";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useState, useEffect } from 'react';
-import { Spinner } from 'react-bootstrap';
+import { Spinner, ListGroup, ListGroupItem } from 'react-bootstrap';
 import MdContent from './MdContent';
+import CommentList from './CommentList';
+import CreateComment from './CreateComment';
+import { IoIosChatbubbles } from 'react-icons/io';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 
-let counter=0;
+let counter = 0;
 export default function Article() {
-    const navigate=useNavigate();
+    const navigate = useNavigate();
     const { articleName } = useParams();
     const [loading, setLoading] = useState(true);
+    const [replyingTo, setReplyingTo] = useState(false);
+
 
     const [article, setArticle] = useState(
         {
@@ -23,54 +29,66 @@ export default function Article() {
             createdAt: '00/00/0000',
             views: 100,
             likes: 4,
-            contributedBy: 'xyz'
+            contributedBy: 'xyz',
+            comments: []
         }
     );
+    const handleReplyClick = () => {
+        setReplyingTo(!replyingTo)
+    };
+    const refineArticle = (myarticle) => {
+        if (!myarticle.comments) myarticle.comments = []
+        return myarticle;
+    }
     const fetchArticle = () => {
-            fetch(`http://localhost:8086/articles/get/${articleName}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            }).then((response) => response.json())
-                .then((response) => {
-                    console.log(response);
+        fetch(`/articles/get/${articleName}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then((response) => response.json())
+            .then((response) => {
+                console.log(response);
 
-                    if (response.error) {
-                        throw response.error;
-                    } else {
-                        setLoading(false);
-                        setArticle(response);
-                    }
-                })
-                .catch((error) => {
+                if (response.error) {
+                    throw response.error;
+                } else {
+
                     setLoading(false);
-                    console.log(error);
-                });
-        }
-    const handleLike=()=>{
-        fetch(`http://localhost:8086/articles/like/${articleName}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
+                    setArticle(refineArticle(response));
                 }
-            }).then((response) => response.json())
-                .then((response) => {
-                    console.log(response);
+            })
+            .catch((error) => {
+                setLoading(false);
+                console.log(error);
+            });
+    }
+    const handleLike = () => {
+        fetch(`/articles/like/${articleName}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then((response) => response.json())
+            .then((response) => {
+                console.log(response);
 
-                    if (response.error) {
-                        throw response.error;
-                    } else {
-                        // fetchArticle();                        
-                        setArticle({...article,likes:response.likes})
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+                if (response.error) {
+                    throw response.error;
+                } else {
+                    // fetchArticle();                        
+                    setArticle({ ...article, likes: response.likes })
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+    const handleCommentSubmit=(e)=>{
+        e.preventDefault();
     }
     useEffect(() => {
-        console.log("useEffect called",++counter);
+        console.log("useEffect called", ++counter);
         fetchArticle();
     }, []);
     const ConditionalRendering = ({ loading, children }) => {
@@ -107,21 +125,15 @@ export default function Article() {
                                         <MdContent data={article.content} className="mb-3"></MdContent>
 
                                         <hr />
+                                        
+                                        
                                         <Row>
-                                            <Col sm={8}>
-                                                Views: {article.views}
-                                            </Col>
-                                            <Col sm={4} className="text-right">
-                                                <FavoriteBorderIcon style={{ color: 'red' }} onClick={handleLike}/> {article.likes}
+                                            <Col>
+                                                <strong>Contributed by:</strong>
+                                                <Badge variant="light" className="mr-1 mb-1" style={{ 'cursor': 'pointer' }} onClick={() => navigate(`/profile/${article.creatorName}`)}>{article.creatorName}</Badge>
                                             </Col>
                                         </Row>
                                         <hr />
-                                        <Row>
-                                            <Col>
-                                                <strong>Contributed by:</strong> 
-                                                <Badge variant="light" className="mr-1 mb-1" style={{'cursor':'pointer'}} onClick={()=>navigate(`/profile/${article.creatorName}`)}>{article.creatorName}</Badge>
-                                            </Col>
-                                        </Row>
                                         <Row className="mt-3">
                                             <Col>
                                                 <strong>Tags:</strong>
@@ -132,7 +144,7 @@ export default function Article() {
                                                 {
                                                     article.tags.map(tag => (
                                                         <>
-                                                            <Badge variant="light" key={tag} className="mr-1 mb-1" style={{'cursor':'pointer'}} onClick={()=>navigate(`/article/tag/${tag}`)}>{tag}</Badge>
+                                                            <Badge variant="light" key={tag} className="mr-1 mb-1" style={{ 'cursor': 'pointer' }} onClick={() => navigate(`/article/tag/${tag}`)}>{tag}</Badge>
                                                             &nbsp;
                                                         </>
                                                     ))
@@ -140,14 +152,37 @@ export default function Article() {
                                             </Col>
 
                                         </Row>
+                                        <hr />
+                                        <Row>
+                                            <Col sm={4}>
+                                                Views: {article.views}
+                                            </Col>
+                                            <Col sm={4} className="text-right">
+                                                <FavoriteBorderIcon style={{ color: 'red' }} onClick={handleLike} /> {article.likes}
+                                            </Col>
+                                            <Col sm={4} >
+                                            <Button variant="link" size="sm" className="text-muted ml-3" onClick={handleReplyClick} >
+                                                <ChatBubbleOutlineIcon style={{ color: 'dodgerblue' }} className="mr-1" />
+                                                {/* Reply */}
+                                            </Button>
+                                            </Col>
+                                        </Row>
+                                        
                                     </Card.Text>
+                                    <div>
+                                        {replyingTo && (
+                                            <CreateComment parentId={article.articleId} onSubmit={handleCommentSubmit} />
+                                        )}
+                                    </div>
+                                    <CommentList comments={article.comments} />
                                 </Card.Body>
                             </Card>
+
                         </Col>
                     </Row>
                 </Container>
             </ConditionalRendering>
-            
+
         </>
 
     );
