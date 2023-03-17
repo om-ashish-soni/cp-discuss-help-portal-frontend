@@ -16,7 +16,7 @@ const themes = {
     dark,
 };
 
-export default function MdContent({ data }) {
+export default function MdContent({ data , showThemeOption }) {
     const [theme, setTheme] = useState("atomDark");
     return (
         <Container>
@@ -43,21 +43,25 @@ export default function MdContent({ data }) {
                         },
                     }}
                 ></ReactMarkdown>
-                <div className="form-group">
-                    <label htmlFor="theme-select">Select Theme:</label>
-                    <select
-                        className="form-control"
-                        id="theme-select"
-                        onChange={(event) => setTheme(event.target.value)}
-                        value={theme}
-                    >
-                        {Object.keys(themes).map((theme) => (
-                            <option key={theme} value={theme}>
-                                {theme}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+                {
+                    showThemeOption && 
+                        <div className="form-group">
+                        <label htmlFor="theme-select">Select Theme:</label>
+                        <select
+                            className="form-control"
+                            id="theme-select"
+                            onChange={(event) => setTheme(event.target.value)}
+                            value={theme}
+                        >
+                            {Object.keys(themes).map((theme) => (
+                                <option key={theme} value={theme}>
+                                    {theme}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                }
+                
             </Card>
         </Container>
     )

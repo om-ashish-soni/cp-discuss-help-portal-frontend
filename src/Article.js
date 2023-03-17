@@ -22,6 +22,7 @@ export default function Article() {
 
     const [article, setArticle] = useState(
         {
+            articleId:'',
             articleName: articleName,
             tags: ['tag1', 'tag2', 'tag3'],
             difficultyType: 'medium',
@@ -55,6 +56,7 @@ export default function Article() {
                 } else {
 
                     setLoading(false);
+                    console.log("response article : ",response);
                     setArticle(refineArticle(response));
                 }
             })
@@ -84,8 +86,29 @@ export default function Article() {
                 console.log(error);
             });
     }
-    const handleCommentSubmit=(e)=>{
-        e.preventDefault();
+    const handleCommentSubmit=(articleName,content)=>{
+        console.log("in handle comment submit of article.js",articleName,content);
+        fetch(`/comments/ofarticle/create/${articleName}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body:JSON.stringify({
+                content:content
+            })
+        }).then((response) => response.json())
+            .then((response) => {
+                console.log(response);
+
+                if (response.error) {
+                    throw response.error;
+                } else {
+                    fetchArticle();                        
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
     useEffect(() => {
         console.log("useEffect called", ++counter);
@@ -110,7 +133,7 @@ export default function Article() {
                     <Row>
                         <Col>
                             <Card className="p-3">
-                                <Card.Header as="h5">{article.articleName}</Card.Header>
+                                <Card.Header as="h5">{article.name}</Card.Header>
                                 <Card.Body>
                                     <Card.Text>
                                         <Row>
@@ -171,7 +194,7 @@ export default function Article() {
                                     </Card.Text>
                                     <div>
                                         {replyingTo && (
-                                            <CreateComment parentId={article.articleId} onSubmit={handleCommentSubmit} />
+                                            <CreateComment articleName={article.name} onSubmit={handleCommentSubmit} />
                                         )}
                                     </div>
                                     <CommentList comments={article.comments} />

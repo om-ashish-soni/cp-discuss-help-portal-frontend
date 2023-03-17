@@ -12,8 +12,39 @@ function HomePage() {
     const {userId,userName}=useContext(UserContext);
     const [articles,setArticles]=useState([]);
     const [loading, setLoading] = useState(true);
-
-
+    const [tags,setTags]=useState([]);
+    const fetchTags=()=>{
+      setLoading(true);
+      fetch(`/tags`,{
+        method: 'Get',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+      }).then(response=>response.json().then(
+        response=>{
+          if (response.error) {
+            throw response.error;
+        } else {
+          setLoading(false);
+          const responseTags=response;
+          if(responseTags==null){
+            throw "could not fetch tags";
+          }else{
+            const tagNames=[]
+            for(let tag of responseTags){
+              tagNames.push(tag.tagName);
+            }
+            // console.log(tagNames)
+            setTags(tagNames);
+          }
+          
+        }
+        })
+      ).catch(error => {
+        setLoading(false);
+        console.log("error : ", error);
+    })
+    }
     const fetchArticles=()=>{
       setLoading(true);
       fetch(`/articles`,{
@@ -37,6 +68,7 @@ function HomePage() {
     })
     }
     useEffect(() => {
+      fetchTags();
       fetchArticles();
     }, [])
    

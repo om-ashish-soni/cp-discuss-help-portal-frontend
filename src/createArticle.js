@@ -4,6 +4,7 @@ import "./App.css";
 // import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { atomDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
+// import { SpellCheckInput } from 'react-input-enhancements';
 import { LoginContext, UserContext } from "./App";
 import { useNavigate } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
@@ -36,6 +37,7 @@ function CreateArticle() {
     }else{
       setUserName(localStorage.getItem('userName'));
       setUserId(localStorage.getItem('userId'));
+      console.log("userId : ",localStorage.getItem('userId'));
     }
   }, []);
 
@@ -108,8 +110,13 @@ function CreateArticle() {
           type="text"
           className="form-control"
           id="article-title"
+          spellcheck={true}
           onChange={(e) => setArticleName(e.target.value)}
         />
+        {/* <SpellCheckInput
+          value={articleName}
+          onChange={(e) => setArticleName(e.target.value)}
+        /> */}
       </div>
 
       <Form.Group controlId="formDifficulty">
@@ -136,6 +143,7 @@ function CreateArticle() {
           className="form-control"
           id="article-content"
           rows="10"
+          spellCheck="true"
           onChange={(e) => setData(e.target.value)}
         ></textarea>
       </div>

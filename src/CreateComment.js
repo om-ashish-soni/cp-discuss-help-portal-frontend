@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Form, Button, Card } from 'react-bootstrap';
 
-function CreateComment({ parentId, onSubmit }) {
+function CreateComment({ articleName, onSubmit }) {
     const [content, setContent] = useState('');
 
     const handleCommentSubmit = (e) => {
         e.preventDefault();
-        onSubmit({ parentId, content });
+        console.log("in handle submit of create comment",articleName,content);
+        onSubmit(articleName, content);
         setContent('');
     };
 
@@ -30,7 +31,7 @@ function CreateComment({ parentId, onSubmit }) {
             
             <Card>
                 <Card.Body>
-                    <Form onSubmit={handleCommentSubmit}>
+                    {/* <Form > */}
                         <Form.Group controlId="formComment">
                             <Form.Label>Add a Comment:</Form.Label>
                             <Form.Control
@@ -38,12 +39,13 @@ function CreateComment({ parentId, onSubmit }) {
                                 rows={3}
                                 name="content"
                                 placeholder="Type your comment here..."
+                                onChange={(e)=>setContent(e.target.value)}
                             />
                         </Form.Group>
-                        <Button variant="primary" type="submit">
+                        <Button variant="primary" type="submit" onClick={(e)=>handleCommentSubmit(e)}>
                             Submit
                         </Button>
-                    </Form>
+                    {/* </Form> */}
                 </Card.Body>
             </Card>
         </>

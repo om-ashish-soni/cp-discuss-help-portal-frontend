@@ -9,7 +9,7 @@ export default function TagSearch() {
     const [loading, setLoading] = useState(true);
     const [articles, setArticles] = useState([]);
     const { tagName } = useParams();
-    const fetchArticles = () => {
+const fetchArticles = () => {
         setLoading(true);
         fetch(`/articles/get/tag/${tagName}`, {
             method: 'Get',

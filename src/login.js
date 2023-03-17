@@ -28,10 +28,14 @@ function Login() {
     }).then(response => response.json())
       .then(response => {
         console.log(response);
-        if (response.error) {
+        if(!response.user){
+          throw "user not found";
+        }
+        else if (response.error) {
           throw response.error;
         } else {
           const user = response.user;
+          console.log("user : ",user);
           setIsLoggedIn(true);
           setUserId(user.userId);
           setUserName(user.userName);
