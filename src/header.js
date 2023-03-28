@@ -24,41 +24,45 @@ function NavBar(props) {
     } else {
       const userName = localStorage.getItem('userName');
       return <>
-        <NavItem className="nav-item-link" onClick={(e) => redirect(e, `/profile/${userName}`)}>{userName}</NavItem>
+        <NavItem className="nav-item-link text-light" onClick={(e) => redirect(e, `/profile/${userName}`)}>Welcome {userName}</NavItem>
         &nbsp;&nbsp;
-        <NavItem className="nav-item-link" onClick={(e) => doLogout(e)}>logout</NavItem>
+        <NavItem className="nav-item-link text-light" onClick={(e) => doLogout(e)}>logout</NavItem>
       </>
     }
   }
   return (
     
-    <Navbar className="text-dark" variant="dark" expand="lg">
+    <Navbar bg="dark"  className="text-dark" variant="dark" expand="lg">
       <Container>
-        <Navbar.Brand className="text-dark">CP Discuss</Navbar.Brand>
+        <Navbar.Brand style={{"fontFamily":"satisfy","color":"cornflowerblue"}}className="px-1">CP Discuss</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
             <NavItem className="nav-item-link">
-              <Link to="/home" className="nav-link text-dark">Home</Link>
+              <Link to="/home" className="nav-link text-light">Home</Link>
             </NavItem>
             &nbsp;&nbsp;
             <NavItem className="nav-item-link">
-              <Link to="/create-article" className="nav-link text-dark">Create</Link>
+              <Link to="/articles" className="nav-link text-light">Articles</Link>
             </NavItem>
             &nbsp;&nbsp;
             <NavItem className="nav-item-link">
-              <Link to="/search-article" className="nav-link text-dark">Search</Link>
+              <Link to="/create-article" className="nav-link text-light">Create</Link>
+            </NavItem>
+            &nbsp;&nbsp;
+            <NavItem className="nav-item-link">
+              <Link to="/search-article" className="nav-link text-light">Search</Link>
             </NavItem>
           </Nav>
         </Navbar.Collapse>
         <Navbar.Collapse className="justify-content-end">
           <ConditionalRendering>
             <NavItem className="nav-item-link">
-              <Link to="/login" className="nav-link text-dark">Login</Link>
+              <Link to="/login" className="nav-link text-light">Login</Link>
             </NavItem>
             &nbsp;&nbsp;
             <NavItem className="nav-item-link">
-              <Link to="/signup" className="nav-link text-dark">Sign up</Link>
+              <Link to="/signup" className="nav-link text-light">Sign up</Link>
             </NavItem>
           </ConditionalRendering>
         </Navbar.Collapse>
