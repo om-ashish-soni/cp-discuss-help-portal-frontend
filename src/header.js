@@ -53,6 +53,9 @@ function NavBar(props) {
             <NavItem className="nav-item-link">
               <Link to="/search-article" className="nav-link text-light">Search</Link>
             </NavItem>
+            <NavItem className="nav-item-link">
+              <Link to="/article/Writing-articles-in-markdown-guidelines" className="nav-link text-light">Guidelines</Link>
+            </NavItem>
           </Nav>
         </Navbar.Collapse>
         <Navbar.Collapse className="justify-content-end">
@@ -64,6 +67,7 @@ function NavBar(props) {
             <NavItem className="nav-item-link">
               <Link to="/signup" className="nav-link text-light">Sign up</Link>
             </NavItem>
+            
           </ConditionalRendering>
         </Navbar.Collapse>
       </Container>
