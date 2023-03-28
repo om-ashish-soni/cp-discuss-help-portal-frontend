@@ -9,6 +9,7 @@ import Article from './Article';
 import SearchArticle from './SearchArticle';
 import TagSearch from './TagSearch';
 import Profile from './Profile';
+import Articles from './Articles';
 
 export const LoginContext = createContext({
   isLoggedIn: false,
@@ -37,6 +38,8 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/home" element={<HomePage />} />
             <Route exact path="/login" element={<Login />} />
+            <Route exact path="/articles" element={<Articles/>} />
+
             <Route exact path="/create-article" element={<CreateArticle />} />
             <Route exact path="/search-article" element={<SearchArticle />} />
             <Route exact path="/article/tag/:tagName" element={<TagSearch />} />

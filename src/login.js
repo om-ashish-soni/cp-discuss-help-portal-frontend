@@ -4,6 +4,7 @@ import React, { useRef, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Button, Form, Container, Row, Col } from 'react-bootstrap';
 import { LoginContext, UserContext } from './App';
+import Paper from '@mui/material/Paper';
 
 function Login() {
   const userNameRef = useRef(null);
@@ -50,23 +51,26 @@ function Login() {
 
   return (
     <div className='login-page'>
+            <Paper elevation={5} className="container w-50 my-3 py-3">
+
       <Row className="justify-content-md-center mt-5">
         <Col md={6}>
           <Form onSubmit={handleSubmit} className='form-container'>
-            <Form.Group controlId="formBasicuserName">
-              <Form.Label>userName</Form.Label>
+            <Form.Group className="mb-3"controlId="formBasicuserName">
+              <Form.Label>User Name</Form.Label>
               <Form.Control type="userName" placeholder="Enter userName" ref={userNameRef} />
             </Form.Group>
-            <Form.Group controlId="formBasicPassword">
+            <Form.Group className="mb-3"controlId="formBasicPassword">
               <Form.Label>Password</Form.Label>
               <Form.Control type="password" placeholder="Password" ref={passwordRef} />
-            </Form.Group>
-            <Button variant="primary" type="submit" block>
+            </Form.Group >
+            <Button className="mb-3"variant="primary" type="submit" block>
               Submit
             </Button>
           </Form>
         </Col>
       </Row>
+      </Paper>
     </div>
   );
 }
